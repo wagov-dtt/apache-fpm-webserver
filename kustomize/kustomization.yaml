@@ -1,0 +1,13 @@
+# kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+    - deployment.yaml
+
+labels:
+    - pairs:
+          app: drupal-web
+          environment: local
+      includeSelectors: true
+      includeTemplates: true
