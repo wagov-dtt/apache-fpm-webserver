@@ -2,31 +2,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: drupal-web
+  name: drupal-web
 spec:
-    template:
-        spec:
-            containers:
-                - name: web
-                  image: ghcr.io/wagov-dtt/apache-fpm-webserver:v1.24.6
-                  ports:
-                      - containerPort: 80
-                  volumeMounts:
-                      - name: html
-                        mountPath: /var/www/html
-            volumes:
-                - name: html
-                  persistentVolumeClaim:
-                      claimName: html
+  template:
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/wagov-dtt/apache-fpm-webserver:v1.24.6
+          ports:
+            - containerPort: 80
+          env:
+            - name: DDEV_WEBSERVER_TYPE
+              value: apache-fpm
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: html
+              mountPath: /var/www/html
+      volumes:
+        - name: html
+          persistentVolumeClaim:
+            claimName: html
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: html
+  name: html
 spec:
-    accessModes:
-        - ReadWriteOnce
-    storageClassName: local-path
-    resources:
-        requests:
-            storage: 1G
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1G
