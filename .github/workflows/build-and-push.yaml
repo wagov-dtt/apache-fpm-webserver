@@ -12,6 +12,7 @@ jobs:
       contents: read
       packages: write # Required to push to GHCR
       id-token: write # Required for Cosign OIDC integration (keyless signing)
+      security-events: write # Required for github/codeql-action/upload-sarif to upload results
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
