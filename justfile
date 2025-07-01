@@ -14,14 +14,16 @@ k3d:
     k3d image import {{local-image}}
     kubectl apply -k kustomize
 
-ddev-build: prereqs
+build: prereqs
     # Ensure ddev is configured for hardened images and rebuilds the web service
     ddev config global --use-hardened-images --omit-containers=ddev-ssh-agent,ddev-router
     ddev debug rebuild --service web
     ddev poweroff
+
+tag-local-image: build
     docker image tag {{ddev-repo}}:{{ddev-tag}} {{local-image}}
 
-trivy-scan: ddev-build
+trivy-scan: tag-local-image
     #!/bin/bash
     if [ "${CI}" = "true" ]; then
         trivy image --format sarif --output trivy-results.sarif --severity HIGH,CRITICAL {{local-image}}

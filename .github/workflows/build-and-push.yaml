@@ -28,7 +28,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and Push Image using Justfile
+      - name: Build image
+        run: just build
+      - name: Tag, scan and push image
         run: just push
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
