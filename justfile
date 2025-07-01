@@ -20,7 +20,8 @@ build: prereqs
     ddev debug rebuild --service web
     ddev poweroff
 
-tag-local-image: build
+tag-local-image:
+    echo {{local-image}} | grep "apache-fpm-webserver" # Check image has been built or exit
     docker image tag {{ddev-repo}}:{{ddev-tag}} {{local-image}}
 
 trivy-scan: tag-local-image
