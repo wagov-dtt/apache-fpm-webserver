@@ -1,0 +1,7 @@
+services:
+  web:
+    build:
+      args:
+        gid: "1000"
+        uid: "1000"
+        username: ec2-user

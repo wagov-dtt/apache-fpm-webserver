@@ -31,17 +31,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
         run: just build
-      - name: Save image reference
-        run: echo "IMAGE_NAME=$(just --evaluate local-image)" >> $GITHUB_ENV
-      - name: Setup Cosign
-        uses: sigstore/cosign-installer@v3.5.0
-        with:
-          cosign-release: 'v2.2.3' # Specify a version or use 'latest'
-      - name: Sign Image with Cosign (Keyless)
-        # Keyless signing is recommended for CI/CD environments with OIDC
-        # Ensure 'id-token: write' permission is set for the job
-        run: cosign sign --yes "$IMAGE_NAME"
-      - name: Tag, scan and push image
+      - name: Tag, sign, scan and push image
         run: just push
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
