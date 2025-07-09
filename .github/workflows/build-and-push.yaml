@@ -1,5 +1,7 @@
 # .github/workflows/build-and-push.yml
 name: Build, Sign, and Push DDEV Webserver Image
+
+# Builds hardened Apache+PHP-FPM image, scans for vulnerabilities, signs with Cosign, and pushes to GHCR
 on:
   push:
     branches:
@@ -29,9 +31,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build image
+      - name: Build hardened DDEV image
         run: just build
-      - name: Tag, sign, scan and push image
+      - name: Security scan and push to registry
         run: just push
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
