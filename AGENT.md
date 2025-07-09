@@ -11,10 +11,11 @@
 ## Architecture & Structure
 - **Container Platform**: DDEV-based Apache + PHP-FPM webserver for Drupal 11
 - **Base Image**: Hardened ddev/ddev-webserver-prod:v1.24.6
-- **User Management**: Build user configurable, runtime always uid 1000 for K8s
+- **User Management**: Build user configurable, runtime uid 1000 for K8s
 - **Deployment**: Kubernetes manifests in `/kustomize/` for k3d local clusters
 - **Storage**: Persistent volumes for web content in `/var/www/html`
 - **Security**: Cosign image signing, Trivy vulnerability scanning, hardened containers
+- **Error Handling**: Automatic log output on build failures for CI debugging
 
 ## Code Style & Conventions
 - **Configuration**: YAML files use standard 2-space indentation

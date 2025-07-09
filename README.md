@@ -21,9 +21,9 @@ just push
 
 The build process creates a hardened DDEV container with:
 - **Build User**: Configurable uid/gid (currently 1000) for build compatibility
-- **Runtime User**: Always runs as uid 1000 for Kubernetes security context
 - **Security**: Trivy vulnerability scanning and Cosign image signing
 - **Deployment**: Kubernetes manifests for local k3d development
+- **Error Handling**: Automatic log output on build failures for CI debugging
 
 ## Architecture
 

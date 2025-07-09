@@ -11,7 +11,7 @@ prereqs:
 # Build hardened DDEV image with custom configuration
 build: prereqs
     ddev config global --use-hardened-images --omit-containers=ddev-ssh-agent,ddev-router
-    ddev debug rebuild --service web
+    ddev debug rebuild --service web || (echo "Build failed, outputting logs:" && ddev logs -s web && docker logs ddev-drupal-web 2>&1 || true && docker inspect --format "{{{{json .State.Health}}}}" ddev-drupal-web | docker run -i --rm ddev/ddev-utilities jq -r || true && exit 1)
     ddev poweroff
 
 # Get the local image name
