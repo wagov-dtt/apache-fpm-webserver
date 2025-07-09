@@ -9,7 +9,6 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/devcontainers/base:bookworm
     permissions:
       contents: read
       packages: write # Required to push to GHCR
@@ -18,18 +17,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Replicate devcontainer environment
-        run: .devcontainer/onCreateCommand.sh
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Build and run in devcontainer
+        uses: devcontainers/ci@v0.3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build hardened DDEV image
-        run: just build
-      - name: Security scan and push to registry
-        run: just push
+          imageName: ghcr.io/wagov-dtt/apache-fpm-webserver
+          runCmd: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            just build
+            just push
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:

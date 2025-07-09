@@ -1,11 +1,5 @@
 #!/bin/bash
-# This script enables docker in docker locally, then installs brew, just and fzf on linux
-
-# Install Docker using the devcontainer feature script (if not already installed)
-if ! command -v docker &> /dev/null; then
-    echo "Installing Docker..."
-    curl -fsSL https://raw.githubusercontent.com/devcontainers/features/main/src/docker-in-docker/install.sh | sudo bash
-fi
+# This script installs brew and just on linux
 
 # Install Homebrew
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

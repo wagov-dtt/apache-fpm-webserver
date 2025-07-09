@@ -5,6 +5,9 @@
 	"hostRequirements": {
 		"memory": "32gb"
 	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
 	"onCreateCommand": ".devcontainer/onCreateCommand.sh",
 	"customizations": {
 		"vscode": {
