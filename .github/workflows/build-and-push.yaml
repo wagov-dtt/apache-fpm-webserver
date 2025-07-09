@@ -19,11 +19,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Setup Just
-        uses: extractions/setup-just@v2
-      - name: Set up Homebrew
-        id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@main
+      - name: Setup development environment
+        run: .devcontainer/onCreateCommand.sh
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Log in to GitHub Container Registry
